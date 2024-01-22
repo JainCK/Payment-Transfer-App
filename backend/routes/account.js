@@ -1,20 +1,20 @@
 const express = require('express')
-const router = express.Router()
 const authMiddleware = require('../middleware');
 const { Account } = require('../db')
 
+const router = express.Router();
 
 //balance route
 
-router.get('/balance', authMiddleware, async (req, res) => {
+router.get("/balance", authMiddleware, async (req, res) => {
     const account = await Account.findOne({
         userId: req.userId
     });
 
     res.json({
-        message: account.balance
-    });
-})
+        balance: account.balance
+    })
+});
 
 
 router.post('/transfer', authMiddleware, async (req, res) => { 

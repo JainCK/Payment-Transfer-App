@@ -6,7 +6,7 @@ const { User, Account } = require('../db')
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
 
-const { authMiddleware } = require('../middleware');
+const authMiddleware = require('../middleware');
 
 //Signup route
 
@@ -37,7 +37,7 @@ router.post('/signup', async (req, res) => {
 
     const user = await User.create({
         username: req.body.username,
-        password: req.body.paaword,
+        password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
     })

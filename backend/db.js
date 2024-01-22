@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
-require('dotenv').config()
+const mongoose =  require("mongoose");
 
-mongoose.connect(process.env.MONGO_URI)
+
+mongoose.connect('mongodb+srv://Admin:QVMlg92Wjkphtoho@cluster0.vnfthan.mongodb.net/')
 
 const userSchema = new mongoose.Schema({
 username: {
@@ -21,7 +21,7 @@ firstName: {
     trim: true,
 },
 lastName: {
-    type: true,
+    type: String,
     required: true,
     trim: true,
 }
@@ -30,7 +30,7 @@ lastName: {
 
 const accountSchema = new mongoose.Schema({
     userId: {
-        type : userSchema.Types.objectId, 
+        type : mongoose.Schema.Types.ObjectId, 
         ref: "User",
         required :true
     }, 
