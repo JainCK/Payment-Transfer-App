@@ -6,8 +6,9 @@ const {User} = require('../db')
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
 
+//Signup route
 
-const signupSchema = zod.object({
+const signUpSchema = zod.object({
     username: zod.string().email(),
     firstName: zod.string(),
     lastName: zod.string(),
@@ -15,7 +16,7 @@ const signupSchema = zod.object({
 })
 
 router.post('/signup', async (req, res) => {
-    const { success } = signupBody.safeParse(req.body)
+    const { success } = signUpSchema.safeParse(req.body)
     if(!success) {
         return res.status(411).json({
             message :"Email Exists / Incorrect inputs"
@@ -52,7 +53,41 @@ router.post('/signup', async (req, res) => {
 
 })
 
+// SignIn route
 
+const signInSchema =  zod.object({
+    username: zod.string().email(),
+    password: zod.string()
+})
+
+router.post('/signin', async (req, res) => {
+    const { success } = signInSchema.safeParse(req.body)
+    if(!success) {
+        return res.status(411).json({
+            message :"Incorrect inputs"
+        })
+    }
+
+    const user = await User.findOne({
+        username: req.body.username,
+        password: req.body.password,
+    });
+
+    if(user) {
+        const token = jwt.sign({
+            userId: user._id
+        }, JWT_SECRET);
+
+        res.status(200).json({
+            token: token
+        })
+        return
+    }
+
+    res.status(411).json({
+        message: "Login Error"
+    })
+})
 
 
 module.exports = router
