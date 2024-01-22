@@ -1,6 +1,10 @@
-const {User} = require('../db')
+const express = require('express');
+
 const router = express.Router();
 const zod = require('zod');
+const {User} = require('../db')
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../config');
 
 
 const signupSchema = zod.object({
@@ -35,7 +39,20 @@ router.post('/signup', async (req, res) => {
         lastName: req.body.lastName,
     })
 
+    const userId = user._id;
+
+    const token = jwt.sign({
+        userId
+    }, JWT_SECRET)
+
+    res.status(200).json({
+        message: "User created successfully",
+        token: token
+    })
+
 })
+
+
 
 
 module.exports = router
