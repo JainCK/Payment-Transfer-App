@@ -40,7 +40,7 @@ router.post('/transfer', authMiddleware, async (req, res) => {
         });
     }
 
-    await Account.update({
+    await Account.updateOne({
         userId: req.userId
     }, {
         $inc :{
