@@ -4,20 +4,6 @@ import '../index.css'
 
 const SignIn = () => {
 
-    const [formData, setFormData] = useState({
-        username: '',
-        firstName: '',
-        lastName:'',
-        password: '',
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value })
-    }
-
-
-
 
   return (
     <>
