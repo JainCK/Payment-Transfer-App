@@ -1,7 +1,7 @@
-import Dashboard from './componenets/Dashboard'
-import SignIn from './componenets/SignIn'
-import SignUp from './componenets/SignUp'
-import Transfer from './componenets/Transfer'
+import Dashboard from './Pages/Dashboard'
+import SignIn from './Pages/SignIn'
+import SignUp from './Pages/SignUp'
+import Transfer from './Pages/Transfer'
 import './index.css'
 function App() {
 
@@ -9,8 +9,8 @@ function App() {
     <>
     {/* <SignIn /> 
     <SignUp /> 
-    <Dashboard /> */}
-    <Transfer />
+    <Transfer />*/}
+  <Dashboard /> 
     </>
   )
 }  
