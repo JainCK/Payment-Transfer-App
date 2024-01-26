@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     firstName: "",
     lastName: "",
     password: "",
@@ -13,6 +15,21 @@ const SignUp = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("http://localhost:3000/api/v1/user/signup", formData)
+      .then((response) => {
+        console.log("User signed up Successfully:", response.data);
+
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.error("Error Signing up:", error);
+      });
   };
 
   return (
@@ -36,6 +53,8 @@ const SignUp = () => {
               type="text"
               id="firstName"
               className="border w-full text-base px-2 py-1 focus: outline-none focus:ring-0 focus:border-gray-600"
+              value={formData.firstName}
+              onChange={handleChange}
               placeholder="John"
             />
           </div>
@@ -50,6 +69,8 @@ const SignUp = () => {
               type="text"
               id="lastName"
               className="border w-full text-base px-2 py-1 focus: outline-none focus:ring-0 focus:border-gray-600"
+              value={formData.lastName}
+              onChange={handleChange}
               placeholder="Doe"
             />
           </div>
@@ -64,6 +85,8 @@ const SignUp = () => {
               type="text"
               id="email"
               className="border w-full text-base px-2 py-1 focus: outline-none focus:ring-0 focus:border-gray-600"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="johndoe@example.com"
             />
           </div>
@@ -75,14 +98,19 @@ const SignUp = () => {
               Password
             </label>
             <input
-              type="text"
+              type="password"
               id="password"
               className="border w-full text-base px-2 py-1 focus: outline-none focus:ring-0 focus:border-gray-600"
+              value={formData.password}
+              onChange={handleChange}
               placeholder=""
             />
           </div>
           <div className="mt-5">
-            <button className="w-full bg-black text-white rounded-md h-10">
+            <button
+              className="w-full bg-black text-white rounded-md h-10"
+              onClick={handleSubmit}
+            >
               Sign Up
             </button>
           </div>
