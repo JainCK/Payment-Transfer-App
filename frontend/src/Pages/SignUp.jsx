@@ -1,37 +1,16 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import Inputbox from "../Components/Inputbox";
+import Btn from "../Components/Btn";
 
 const SignUp = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    axios
-      .post("http://localhost:3000/api/v1/user/signup", formData)
-      .then((response) => {
-        console.log("User signed up Successfully:", response.data);
-
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        console.error("Error Signing up:", error);
-      });
-  };
 
   return (
     <>
@@ -41,79 +20,51 @@ const SignUp = () => {
           <p className="text-center text-lg mt-3 text-gray-500">
             Enter your information to create an account
           </p>
-          <hr className="mt-3" />
-
-          <div className="mt-3">
-            <label
-              htmlFor="firstName"
-              className="block text-base mb-2 font-semibold"
-            >
-              First Name
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              className="border w-full text-base px-2 py-1 focus: outline-none focus:ring-0 focus:border-gray-600"
-              value={formData.firstName}
-              onChange={handleChange}
-              placeholder="John"
-            />
-          </div>
-          <div className="mt-3">
-            <label
-              htmlFor="lastName"
-              className="block text-base mb-2 font-semibold"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              className="border w-full text-base px-2 py-1 focus: outline-none focus:ring-0 focus:border-gray-600"
-              value={formData.lastName}
-              onChange={handleChange}
-              placeholder="Doe"
-            />
-          </div>
-          <div className="mt-3">
-            <label
-              htmlFor="email"
-              className="block text-base mb-2 font-semibold"
-            >
-              Email
-            </label>
-            <input
-              type="text"
-              id="email"
-              className="border w-full text-base px-2 py-1 focus: outline-none focus:ring-0 focus:border-gray-600"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="johndoe@example.com"
-            />
-          </div>
-          <div className="mt-3">
-            <label
-              htmlFor="password"
-              className="block text-base mb-2 font-semibold"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="border w-full text-base px-2 py-1 focus: outline-none focus:ring-0 focus:border-gray-600"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder=""
-            />
-          </div>
+          <Inputbox
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+            placeholder="John"
+            label={"First Name"}
+          />
+          <Inputbox
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+            placeholder="Doe"
+            label={"Last Name"}
+          />
+          <Inputbox
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            placeholder="johndoe@gmail.com"
+            label={"Email"}
+          />
+          <Inputbox
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            placeholder="*****"
+            label={"Password"}
+          />
           <div className="mt-5">
-            <button
-              className="w-full bg-black text-white rounded-md h-10"
-              onClick={handleSubmit}
-            >
-              Sign Up
-            </button>
+            <Btn
+              label={"Sign Up"}
+              onClick={async () => {
+                const response = await axios.post(
+                  "http://localhost:3000/api/v1/user/signup",
+                  {
+                    username,
+                    firstName,
+                    lastName,
+                    password,
+                  }
+                );
+                localStorage.setItem("token", response.data.token);
+                navigate("/dashboard");
+              }}
+            />
           </div>
           <div className="mt-3">
             <p className="text-center font-semibold">
