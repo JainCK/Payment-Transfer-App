@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "../index.css";
+import { useNavigate } from "react-router-dom";
 import Inputbox from "../Components/Inputbox";
 import Btn from "../Components/Btn";
 
 const SignIn = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="flex justify-center items-center h-screen bg-gray-500">
@@ -14,10 +18,35 @@ const SignIn = () => {
           <p className="text-center text-lg mt-3 text-gray-500">
             Enter your credentials to access your account
           </p>
-          <Inputbox placeholder="johndoe@gmail.com" label={"Email"} />
-          <Inputbox placeholder="*****" label={"Password"} />
+          <Inputbox
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            placeholder="johndoe@gmail.com"
+            label={"Email"}
+          />
+          <Inputbox
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            placeholder="*****"
+            label={"Password"}
+          />
           <div className="mt-5">
-            <Btn label={"Sign in"} />
+            <Btn
+              onClick={async () => {
+                const response = await axios.post(
+                  "http://localhost:3000/api/v1/user/signin",
+                  {
+                    username,
+                    password,
+                  }
+                );
+                localStorage.setItem("token", response.data.token);
+                navigate("/dashboard");
+              }}
+              label={"Sign in"}
+            />
           </div>
           <div className="mt-3">
             <p className="text-center font-semibold">
