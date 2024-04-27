@@ -30,10 +30,12 @@ const Balance = () => {
 
   return (
     <>
-      <div className="my-5 border ">
-        <h2 className="font-bold text-2xl ml-10">
+    <div className="my-5 mx-auto px-4">
+      <div className=" px-2 py-1 border rounded border-gray-200">
+        <h2 className="font-semibold  text-md">
           Your Balance: {balance !== null ? balance : "Loading..."}
         </h2>
+      </div>
       </div>
     </>
   );

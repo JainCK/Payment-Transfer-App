@@ -9,7 +9,7 @@ const Transfer = () => {
   const [amount, setAmount] = useState(0);
 
   return (
-    <div class="flex justify-center h-screen bg-gray-100">
+    <div class="flex justify-center h-screen bg-gray-200">
       <div className="h-full flex flex-col justify-center">
         <div class="border h-min text-card-foreground max-w-md p-4 space-y-8 w-96 bg-white shadow-lg rounded-lg">
           <div class="flex flex-col space-y-1.5 p-6">
@@ -69,3 +69,4 @@ const Transfer = () => {
 };
 
 export default Transfer;
+

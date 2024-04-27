@@ -15,8 +15,8 @@ const Users = () => {
   }, [filter]);
 
   return (
-    <>
-      <div className="font-bold mt-6 text-lg ml-5">Users</div>
+    <div className=" mx-auto px-4">
+      <div className="font-semibold  text-lg">Users</div>
       <div className="my-2">
         <input
           onChange={(e) => {
@@ -24,15 +24,15 @@ const Users = () => {
           }}
           type="text"
           placeholder="Search users..."
-          className="w-full px-2 py-1 border rounded border-slate-200 ml-5"
+          className="w-full px-2 py-1 border rounded bg-slate-200 border-gray-400"
         ></input>
       </div>
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {users.map((user) => (
           <User user={user} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -40,33 +40,28 @@ function User({ user }) {
   const navigate = useNavigate();
 
   return (
-    <>
-      <div className="flex justify-between">
-        <div className="flex">
-          <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2 ml-5">
-            <div className="flex flex-col justify-center h-full text-xl">
-              {user.firstName[0]}
-            </div>
+    <div className="bg-white shadow rounded p-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <div className="rounded-full h-12 w-12 bg-gray-200 flex items-center justify-center mr-2">
+            <div className="text-xl">{user.firstName[0]}</div>
           </div>
-        </div>
-        <div className="flex flex-col justify-center h-full mr-5">
           <div>
-            {user.firstName} {user.lastName}
+            <div className="text-lg font-semibold">{user.firstName} {user.lastName}</div>
           </div>
         </div>
+        <div>
+          <button
+            onClick={(e) => {
+              navigate("/transfer?id=" + user._id + "&name=" + user.firstName);
+            }}
+            className="px-4 py-2 rounded-lg bg-blue-500 text-white"
+          >
+            Send Money
+          </button>
+        </div>
       </div>
-
-      <div className="flex justify-end h-full">
-        <button
-          onClick={(e) => {
-            navigate("/transfer?id=" + user._id + "&name=" + user.firstName);
-          }}
-          className="px-5 py-2.5 me-2 mb-2 rounded-lg bg-blue-300"
-        >
-          Send Money
-        </button>
-      </div>
-    </>
+    </div>
   );
 }
 
